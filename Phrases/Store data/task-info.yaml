@@ -1362,46 +1362,12 @@ files:
 - name: src/main/java/org/hyperskill/phrases/AddPhrase.kt
   visible: true
   learner_created: true
-- name: src/main/java/org/hyperskill/phrases/DeleteAlarm.kt
+- name: src/main/res/values/ids.xml
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/23875#comment
 status: Failed
 feedback:
-  message: "Exception. Test failed on activity execution with java.lang.NullPointerException:\
-    \ Cannot invoke &quot;android.content.Context.getApplicationContext()&quot; because\
-    \ &quot;this.mBase&quot; is null\njava.lang.NullPointerException: Cannot invoke\
-    \ &quot;android.content.Context.getApplicationContext()&quot; because &quot;this.mBase&quot;\
-    \ is null\n\tat android.content.ContextWrapper.getApplicationContext(ContextWrapper.java:118)\n\
-    \tat org.hyperskill.phrases.AppDatabase$Companion.getDB(AppDatabase.kt:14)\n\t\
-    at org.hyperskill.phrases.Receiver.onReceive(MainActivity.kt:32)\n\tat org.robolectric.shadows.ShadowBroadcastReceiver.onReceive(ShadowBroadcastReceiver.java:34)\n\
-    \tat org.robolectric.shadows.ShadowBroadcastReceiver.onReceive(ShadowBroadcastReceiver.java:40)\n\
-    \tat org.robolectric.shadows.ShadowInstrumentation$1.run(ShadowInstrumentation.java:376)\n\
-    \tat android.os.Handler.handleCallback(Handler.java:883)\n\tat android.os.Handler.dispatchMessage(Handler.java:100)\n\
-    \tat org.robolectric.shadows.ShadowPausedLooper$IdlingRunnable.run(ShadowPausedLooper.java:332)\n\
-    \tat org.robolectric.shadows.ShadowPausedLooper.executeOnLooper(ShadowPausedLooper.java:366)\n\
-    \tat org.robolectric.shadows.ShadowPausedLooper.idle(ShadowPausedLooper.java:92)\n\
-    \tat org.robolectric.shadows.ShadowPausedLooper.idleFor(ShadowPausedLooper.java:101)\n\
-    \tat org.hyperskill.phrases.internals.PhrasesUnitTest.runEnqueuedAlarms(PhrasesUnitTest.kt:140)\n\
-    \tat org.hyperskill.phrases.Stage3UnitTest$test04_checkWhenTimeSetIsBeforeCurrentNotificationIsSentNextDay$1.invoke(Stage3UnitTest.kt:147)\n\
-    \tat org.hyperskill.phrases.Stage3UnitTest$test04_checkWhenTimeSetIsBeforeCurrentNotificationIsSentNextDay$1.invoke(Stage3UnitTest.kt:130)\n\
-    \tat org.hyperskill.phrases.internals.AbstractUnitTest.testActivity(AbstractUnitTest.kt:87)\n\
-    \tat org.hyperskill.phrases.internals.AbstractUnitTest.testActivity$default(AbstractUnitTest.kt:78)\n\
-    \tat org.hyperskill.phrases.Stage3UnitTest.test04_checkWhenTimeSetIsBeforeCurrentNotificationIsSentNextDay(Stage3UnitTest.kt:130)\n\
-    \tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\
-    \tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n\
-    \tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\
-    \tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n\
-    \tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\
-    \tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n\
-    \tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\
-    \tat org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)\n\
-    \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n\tat org.robolectric.RobolectricTestRunner$HelperTestRunner$1.evaluate(RobolectricTestRunner.java:591)\n\
-    \tat org.robolectric.internal.SandboxTestRunner$2.lambda$evaluate$0(SandboxTestRunner.java:274)\n\
-    \tat org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThread$0(Sandbox.java:88)\n\
-    \tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat\
-    \ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)\n\
-    \tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)\n\
-    \tat java.base/java.lang.Thread.run(Thread.java:833)"
-  time: "Sat, 29 Apr 2023 18:22:32 UTC"
+  message: Your recycler view adapter should not be null
+  time: "Mon, 01 May 2023 16:21:40 UTC"
 record: -1

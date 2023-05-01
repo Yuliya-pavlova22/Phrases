@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.hyperskill.phrases.databinding.ActivityMainBinding
 
@@ -25,20 +26,20 @@ import java.util.Calendar
 
 const val CHANNEL_ID = "org.hyperskill.phrases"
 
-class Receiver : BroadcastReceiver() {
+class Receiver() : BroadcastReceiver() {
+    //val mainActivity: MainActivity
+    var db: AppDatabase? = null
+
     override fun onReceive(context: Context, intent: Intent) {
         val intent = Intent(context, MainActivity::class.java)
-        // Получить все фразы из базы данных
-        val phrasesList = AppDatabase.getDB(context = MainActivity())
-            .getDao()
-            .getAll()
-            .asLiveData().value
+   //      Получить все фразы из базы данных
 
-        // Сгенерировать случайный индекс в пределах диапазона списка фраз
-        val randomIndex = (0 until phrasesList!!.size).random()
+        var randomPhrase: Phrase? = null
 
-        // Получить фразу по сгенерированному индексу
-        val randomPhrase = phrasesList[randomIndex].phrase
+        Thread {
+            randomPhrase =  db!!.getDao().get()
+        }.run()
+
 
         // Настроить уведомление с использованием случайной фразы
         val pIntent = PendingIntent.getActivity(context, 0, intent, 0)
@@ -46,7 +47,7 @@ class Receiver : BroadcastReceiver() {
                 //.setSmallIcon(R.drawable.photo)
                 .setChannelId(CHANNEL_ID)
                 .setContentTitle("Your phrase of the day")
-                .setContentText("$randomPhrase")
+                .setContentText("${randomPhrase?.phrase}")
                 .setStyle(NotificationCompat.BigTextStyle())
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
@@ -56,6 +57,7 @@ class Receiver : BroadcastReceiver() {
             mNotificationManager.notify(393939, notificationBuilder.build())
         }
     }
+
 
 //функция создания канала уведомлений
 @RequiresApi(Build.VERSION_CODES.O)
@@ -76,7 +78,6 @@ fun createNotificationChannel(context: Context) {
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,9 +88,10 @@ class MainActivity : AppCompatActivity() {
         val db = AppDatabase.getDB(this)
         binding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
 
+
         //заполнение recycleryview из базы данных
         db.getDao().getAll().asLiveData().observe(this) {
-            var adapter = PhraseAdapter(it,binding)
+            var adapter = PhraseAdapter(it,binding, db)!!
             binding.recyclerView.adapter = adapter
 
         }
@@ -100,18 +102,15 @@ class MainActivity : AppCompatActivity() {
             createNotificationChannel(this)
         }
 
-
-        //  init()
-        var size = 0
 //устанавливаем часы и сохраняем время
-        binding.reminderTextView.setOnClickListener {
-             db.getDao().getAll().asLiveData().observe(this) {
-                 size = it.size
-             }
+        var size = 0
+        Thread {
+            size = db.getDao().getCount()
+        }.run()
 
-//            if (size == 0) {
-//                Toast.makeText(this, "No reminder set", Toast.LENGTH_SHORT).show()
-//            } else {
+            if (size == 0) {
+                Toast.makeText(this, "No reminder set", Toast.LENGTH_SHORT).show()
+            } else {
                 val cal = Calendar.getInstance()
                 val timeSetListener =
                     TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
@@ -128,6 +127,7 @@ class MainActivity : AppCompatActivity() {
 
 
                         val receiver = Receiver()
+                        receiver.db = db
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         val pendingIntent =
                             PendingIntent.getBroadcast(
@@ -160,8 +160,8 @@ class MainActivity : AppCompatActivity() {
                     cal.get(Calendar.MINUTE),
                     true
                 ).show()
-            }
-  //      }
+
+        }
 
 
         binding.addButton.setOnClickListener {

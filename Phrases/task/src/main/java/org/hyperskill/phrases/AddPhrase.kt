@@ -11,6 +11,7 @@ class AddPhrase {
         builder.setTitle("Add phrase")
 
         val editText = EditText(contextAlert)
+        editText.id = R.id.editText
 
         editText.hint = "Phrase"
 
@@ -25,7 +26,7 @@ class AddPhrase {
             val text1 = editText.text.toString()
 
             // Обработка введенных данных
-            var item = Phrase(null,
+            var item = Phrase(0,
                 text1)
             //Создаем новый поток
             Thread{

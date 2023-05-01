@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PhraseDao {
-
     @Insert
     fun insertItem(item: Phrase)
 
@@ -19,10 +18,10 @@ interface PhraseDao {
     @Query("SELECT * FROM phrases")
     fun getAll(): Flow<List<Phrase>>
 
-    @Query("SELECT phrase FROM phrases")
-    fun get(): Flow<List<Phrase>>
+    @Query("SELECT * FROM phrases limit 1")
+    fun get(): Phrase
 
-
-
+    @Query("SELECT COUNT(*) FROM phrases")
+    fun getCount(): Int
 
 }

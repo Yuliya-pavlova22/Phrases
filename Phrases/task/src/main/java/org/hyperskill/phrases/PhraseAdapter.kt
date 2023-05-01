@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.phrases.databinding.*
 
 class PhraseAdapter(var myDataset: List<Phrase>,
-                    private val binding2: ActivityMainBinding ): RecyclerView.Adapter<PhraseAdapter.PhraseHolder>(){
+                    private val binding2: ActivityMainBinding,
+                    var db: AppDatabase): RecyclerView.Adapter<PhraseAdapter.PhraseHolder>(){
   //  var myPhrase = BankPhrase().generateList()
 
 
@@ -44,8 +45,9 @@ class PhraseAdapter(var myDataset: List<Phrase>,
         butDelete.setOnClickListener {
             val pos = position
             if (pos >= 0 ){
-//                //   Toast.makeText(holder.itemView.context, "$pos", Toast.LENGTH_SHORT).show()
-                val db = AppDatabase.getDB(holder.itemView.context as MainActivity)
+                //   Toast.makeText(holder.itemView.context, "$pos", Toast.LENGTH_SHORT).show()
+
+              //  val db = AppDatabase.getDB(holder.itemView.context as MainActivity)
 
                 // Обработка введенных данных
                 var item = myDataset[pos]
