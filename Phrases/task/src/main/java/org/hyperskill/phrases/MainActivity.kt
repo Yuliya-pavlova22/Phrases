@@ -71,12 +71,18 @@ fun createNotificationChannel(context: Context) {
         description = "Channel for daily phrase notifications"
     }
     notificationManager.createNotificationChannel(channel)
+
 }
 
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+
+//    override fun onDestroy() {
+//        // код, который нужно выполнить при уничтожении активности
+//        super.onDestroy()
+//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId")
@@ -91,16 +97,15 @@ class MainActivity : AppCompatActivity() {
 
         //заполнение recycleryview из базы данных
         db.getDao().getAll().asLiveData().observe(this) {
-            var adapter = PhraseAdapter(it,binding, db)!!
+            var adapter = PhraseAdapter(it,binding, db, this)!!
             binding.recyclerView.adapter = adapter
 
         }
 
 
-        // Создать канал уведомлений
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(this)
-        }
+binding.reminderTextView.setOnClickListener {
+
+
 
 //устанавливаем часы и сохраняем время
         var size = 0
@@ -110,7 +115,12 @@ class MainActivity : AppCompatActivity() {
 
             if (size == 0) {
                 Toast.makeText(this, "No reminder set", Toast.LENGTH_SHORT).show()
+
             } else {
+                // Создать канал уведомлений
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    createNotificationChannel(this)
+                }
                 val cal = Calendar.getInstance()
                 val timeSetListener =
                     TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
@@ -121,10 +131,6 @@ class MainActivity : AppCompatActivity() {
                         if (cal.timeInMillis < currentTime.timeInMillis) {
                             cal.add(Calendar.DAY_OF_YEAR, 1)
                         }
-
-                        val notificationManager =
-                            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
 
                         val receiver = Receiver()
                         receiver.db = db
@@ -162,6 +168,7 @@ class MainActivity : AppCompatActivity() {
                 ).show()
 
         }
+}
 
 
         binding.addButton.setOnClickListener {

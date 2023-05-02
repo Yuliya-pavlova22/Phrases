@@ -33,6 +33,7 @@ class Stage4UnitTest : PhrasesUnitTest<MainActivity>(MainActivity::class.java) {
 
     @Test
     fun test00_checkRecyclerViewIsUsingDatabase() {
+
         addToDatabase(fakePhrases)
 
         testActivity {

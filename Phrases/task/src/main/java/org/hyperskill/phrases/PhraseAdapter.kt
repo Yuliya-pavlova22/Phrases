@@ -1,21 +1,24 @@
 package org.hyperskill.phrases
+
 import android.app.AlarmManager
+import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentProvider
 import android.content.Context
-import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.phrases.databinding.*
 
+
 class PhraseAdapter(var myDataset: List<Phrase>,
                     private val binding2: ActivityMainBinding,
-                    var db: AppDatabase): RecyclerView.Adapter<PhraseAdapter.PhraseHolder>(){
+                    var db: AppDatabase,
+                    private val context: Context
+                    ): RecyclerView.Adapter<PhraseAdapter.PhraseHolder>(){
   //  var myPhrase = BankPhrase().generateList()
 
 
@@ -60,30 +63,29 @@ class PhraseAdapter(var myDataset: List<Phrase>,
                 mutableList.removeAt(pos) // Удаляем элемент из списка
 
                 myDataset = mutableList.toList() // Обновляем список myDataset
-                notifyDataSetChanged() // Обновляем RecyclerView
 
-
-                // проверяем на наличие уведомлений
-                var mycontext: Context = holder.itemView.context as MainActivity
+                // проверяем на наличие уведомлений и отменяем уведомление
                 if (myDataset?.isEmpty() == true) {
-                  //  Toast.makeText(mycontext, "ПУСТО!!!!", Toast.LENGTH_SHORT).show()
-                    val receiverIntent = Intent(mycontext, Receiver::class.java)
-                    val pendingIntent = PendingIntent.getBroadcast(
-                        mycontext,
-                        1,
-                        receiverIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                    )
-                    val alarmManager = mycontext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    alarmManager.cancel(pendingIntent)
-                   // unregisterReceiver(Receiver())
+
+
+                        val intent = Intent(context, Receiver::class.java)
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            context,
+                            1,
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        )
+                        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                        alarmManager.cancel(pendingIntent)
+
+                       val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                        notificationManager.cancelAll()
+
+
                     binding2.reminderTextView.text = "No reminder set"
-
-
-
                 }
 
-
+                notifyDataSetChanged() // Обновляем RecyclerView
 
             }
             }
