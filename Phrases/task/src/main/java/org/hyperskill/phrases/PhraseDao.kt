@@ -16,7 +16,7 @@ interface PhraseDao {
     fun deleteItem(item: Phrase)
 
     @Query("SELECT * FROM phrases")
-    fun getAll(): Flow<List<Phrase>>
+    fun getAll(): List<Phrase>
 
     @Query("SELECT * FROM phrases limit 1")
     fun get(): Phrase
