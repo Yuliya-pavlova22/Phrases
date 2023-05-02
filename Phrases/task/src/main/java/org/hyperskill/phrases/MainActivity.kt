@@ -10,24 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.hyperskill.phrases.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: PhraseAdapter
-
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val db = AppDatabase.getDB(this)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+        val myDataset= db.getDao().getAll().toList().toMutableList();
+        val adapter = PhraseAdapter(myDataset, binding, db, this@MainActivity)
 
-        val myDataset: MutableList<Phrase> = db.getDao().getAll().toList().toMutableList();
-
-        adapter = PhraseAdapter(myDataset, binding, db, this@MainActivity)
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
 
         Notifications.createNotificationChannel(this)
 
@@ -41,8 +37,7 @@ class MainActivity : AppCompatActivity() {
             if (size == 0) {
                 Toast.makeText(this, "No reminder set", Toast.LENGTH_SHORT).show()
             } else {
-                val notifications = Notifications
-                notifications.setReminder(this, db, binding)
+                Notifications.setReminder(this, db, binding)
             }
         }
 

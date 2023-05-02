@@ -48,18 +48,11 @@ class PhraseAdapter(
             }
             notifyDataSetChanged() // Обновляем RecyclerView
 
-
             // проверяем на наличие уведомлений и отменяем уведомление
-            if (myDataset?.isEmpty() == true) {
+            if (myDataset?.isEmpty()) {
                 Notifications.cancelReminder(context)
                 binding2.reminderTextView.text = "No reminder set"
             }
         }
     }
 }
-
-
-
-
-
-

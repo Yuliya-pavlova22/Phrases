@@ -1,11 +1,9 @@
 package org.hyperskill.phrases
 
-
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PhraseDao {
@@ -23,5 +21,4 @@ interface PhraseDao {
 
     @Query("SELECT COUNT(*) FROM phrases")
     fun getCount(): Int
-
 }

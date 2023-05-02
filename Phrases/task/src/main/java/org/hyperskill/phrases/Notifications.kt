@@ -19,7 +19,6 @@ import java.util.Calendar
 import java.util.Date
 
 class Notifications() {
-
     companion object {
         var reminderTime: Date? = null
         const val CHANNEL_ID = "org.hyperskill.phrases"
@@ -57,7 +56,6 @@ class Notifications() {
                         action = "my_action"
                     }
 
-
                     val pendingIntent =
                         PendingIntent.getBroadcast(
                             context,
@@ -66,7 +64,7 @@ class Notifications() {
                             PendingIntent.FLAG_UPDATE_CURRENT
                         )
 
-                 //   настраиваем уведомления
+                    //   настраиваем уведомления
                     val am: AlarmManager =
                         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -80,7 +78,6 @@ class Notifications() {
                     context.registerReceiver(receiver, IntentFilter("my_action"))
 
                     reminderTime = cal.time
-//                    Toast.makeText(context, "$reminderTime",Toast.LENGTH_SHORT).show()
 
                     binding.reminderTextView.text =
                         "Reminder set for ${SimpleDateFormat("HH:mm").format(reminderTime)}"
@@ -113,7 +110,6 @@ class Notifications() {
         }
 
         class Receiver() : BroadcastReceiver() {
-
             var db: AppDatabase? = null
 
             override fun onReceive(context: Context, intent: Intent) {
@@ -142,12 +138,6 @@ class Notifications() {
                     mNotificationManager.notify(393939, notificationBuilder.build())
                 }
             }
-
-
         }
-
-
     }
-
-
 }

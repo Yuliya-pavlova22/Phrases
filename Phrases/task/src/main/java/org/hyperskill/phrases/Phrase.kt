@@ -11,4 +11,3 @@ data class Phrase(
     @ColumnInfo(name = "phrase")
     var phrase: String,
 )
-

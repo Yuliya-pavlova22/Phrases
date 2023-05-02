@@ -11,7 +11,7 @@ abstract class AppDatabase: RoomDatabase() {
 
     companion object{
         fun getDB(context: Context): AppDatabase {
-            return  Room.databaseBuilder(
+            return Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
                 "phrases.db"
